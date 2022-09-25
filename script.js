@@ -1,10 +1,10 @@
 "use strict";
 
-function getRandomInt(min, max) {
+const getRandomInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
-}
+};
 
-const passwordGeneratorV2 = function (length, arrayOfArrays) {
+const passwordGenerator = function (length, arrayOfArrays) {
   let password = "";
   while (password.length < length) {
     const randomArray =
@@ -19,62 +19,51 @@ const passwordGeneratorV2 = function (length, arrayOfArrays) {
   return password;
 };
 
+const checkElementInArray = function (array, element) {
+  if (array.includes(element)) {
+    const index = array.indexOf(element);
+    array.splice(index, 1);
+  } else {
+    array.push(element);
+  }
+};
+
+const openWindow = function () {
+  document.querySelector(".window").classList.remove("hidden");
+  document.querySelector(".overlay").classList.remove("hidden");
+};
+
 const characters = [33, 47];
 const numbers = [48, 57];
 const capitalLetters = [65, 90];
 const smallLetters = [97, 122];
-
 const userInput = [];
 
+const msg = document.querySelector(".msg");
+const length = document.querySelector(".length");
+
 document.getElementById("small-letters").addEventListener("change", () => {
-  if (userInput.includes(smallLetters)) {
-    const index = userInput.indexOf(smallLetters);
-    userInput.splice(index, 1);
-  } else {
-    userInput.push(smallLetters);
-  }
+  checkElementInArray(userInput, smallLetters);
 });
 
 document.getElementById("capital-letters").addEventListener("change", () => {
-  if (userInput.includes(capitalLetters)) {
-    const index = userInput.indexOf(capitalLetters);
-    userInput.splice(index, 1);
-  } else {
-    userInput.push(capitalLetters);
-  }
+  checkElementInArray(userInput, capitalLetters);
 });
 
 document.getElementById("numbers").addEventListener("change", () => {
-  if (userInput.includes(numbers)) {
-    const index = userInput.indexOf(numbers);
-    userInput.splice(index, 1);
-  } else {
-    userInput.push(numbers);
-  }
+  checkElementInArray(userInput, numbers);
 });
 
 document.getElementById("characters").addEventListener("change", () => {
-  if (userInput.includes(characters)) {
-    const index = userInput.indexOf(characters);
-    userInput.splice(index, 1);
-  } else {
-    userInput.push(characters);
-  }
+  checkElementInArray(userInput, characters);
 });
 
-document.querySelector(".btn").addEventListener("click", () => {
-  const length = document.querySelector(".length").value;
-  if (length && userInput.length > 0) {
-    document.querySelector(".password").textContent = passwordGeneratorV2(
-      length,
-      userInput
-    );
-    document.querySelector(".window").classList.remove("hidden");
-    document.querySelector(".overlay").classList.remove("hidden");
+document.getElementById("btn").addEventListener("click", () => {
+  if (length.value && userInput.length) {
+    msg.textContent = passwordGenerator(length.value, userInput);
+    openWindow();
   } else {
-    document.querySelector(".password").textContent =
-      "Choose length and characters";
-    document.querySelector(".window").classList.remove("hidden");
-    document.querySelector(".overlay").classList.remove("hidden");
+    msg.textContent = "Choose length and characters";
+    openWindow();
   }
 });
