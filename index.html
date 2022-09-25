@@ -1,3 +1,4 @@
+<!-- - ! " # $ % & ' ( ) * + , - . / -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,42 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css"
   </head>
-
   <body>
-    <section class="out">
-      <header>
-        <h1>Password Generator</h1>
-      </header>
-      <main>
-        <section class="menu">
-          <section class="menu-one">
-            <input type="number" class="password-length" placeholder="length" />
-          </section>
-          <section class="menu-two">
-            <input type="checkbox" id="small-letters" />
-            <label for="small-letters">Small letters</label>
-          </section>
-          <section class="menu-three">
-            <input type="checkbox" id="capital-letters" />
-            <label for="capital-letters">Capital letters</label>
-          </section>
-          <section class="menu-four">
-            <input type="checkbox" id="numbers" />
-            <label for="numbers">Numbers</label>
-          </section>
-          <section class="menu-five">
-            <input type="checkbox" id="character-set-one" />
-            <label for="character-set-one"
-              >- ! " # $ % & ' ( ) * + , - . /</label
-            >
-          </section>
-          <button class="btn">Generate</button>
-        </section>
-        <section>
-          <div class="password"></div>
-        </section>
-      </main>
-    </section>
+    <header></header>
+    <main>
+      <h1>Password Generator</h1>
+      <input type="number" class="length" placeholder="length" />
+      <div>
+        <input type="checkbox" id="small-letters" />
+        <label for="small-letters">Small letters</label>
+      </div>
+      <div>
+        <input type="checkbox" id="capital-letters" />
+        <label for="capital-letters">Capital letters</label>
+      </div>
+      <div>
+        <input type="checkbox" id="numbers" />
+        <label for="numbers">Numbers</label>
+      </div>
+      <div>
+        <input type="checkbox" id="characters" />
+        <label for="characters">Characters</label>
+      </div>
+      <button class="btn">Generate</button>
+    </main>
+    <div class="window hidden">
+      <p class="password"></p>
+    </div>
+    <div class="overlay hidden"></div>
     <script src="script.js"></script>
   </body>
 </html>

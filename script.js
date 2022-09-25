@@ -26,7 +26,7 @@ const smallLetters = [97, 122];
 
 const userInput = [];
 
-document.querySelector(".menu-two").addEventListener("change", () => {
+document.getElementById("small-letters").addEventListener("change", () => {
   if (userInput.includes(smallLetters)) {
     const index = userInput.indexOf(smallLetters);
     userInput.splice(index, 1);
@@ -35,7 +35,7 @@ document.querySelector(".menu-two").addEventListener("change", () => {
   }
 });
 
-document.querySelector(".menu-three").addEventListener("change", () => {
+document.getElementById("capital-letters").addEventListener("change", () => {
   if (userInput.includes(capitalLetters)) {
     const index = userInput.indexOf(capitalLetters);
     userInput.splice(index, 1);
@@ -44,7 +44,7 @@ document.querySelector(".menu-three").addEventListener("change", () => {
   }
 });
 
-document.querySelector(".menu-four").addEventListener("change", () => {
+document.getElementById("numbers").addEventListener("change", () => {
   if (userInput.includes(numbers)) {
     const index = userInput.indexOf(numbers);
     userInput.splice(index, 1);
@@ -53,7 +53,7 @@ document.querySelector(".menu-four").addEventListener("change", () => {
   }
 });
 
-document.querySelector(".menu-five").addEventListener("change", () => {
+document.getElementById("characters").addEventListener("change", () => {
   if (userInput.includes(characters)) {
     const index = userInput.indexOf(characters);
     userInput.splice(index, 1);
@@ -63,14 +63,18 @@ document.querySelector(".menu-five").addEventListener("change", () => {
 });
 
 document.querySelector(".btn").addEventListener("click", () => {
-  const length = document.querySelector(".password-length").value;
+  const length = document.querySelector(".length").value;
   if (length && userInput.length > 0) {
     document.querySelector(".password").textContent = passwordGeneratorV2(
       length,
       userInput
     );
+    document.querySelector(".window").classList.remove("hidden");
+    document.querySelector(".overlay").classList.remove("hidden");
   } else {
     document.querySelector(".password").textContent =
       "Choose length and characters";
+    document.querySelector(".window").classList.remove("hidden");
+    document.querySelector(".overlay").classList.remove("hidden");
   }
 });
