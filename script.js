@@ -4,11 +4,11 @@ const getRandomInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
 };
 
-const passwordGenerator = function (length, arrayOfArrays) {
+const passwordGenerator = function (length, array) {
   let password = "";
   while (password.length < length) {
     const randomArray =
-      arrayOfArrays[Math.trunc(Math.random() * arrayOfArrays.length)];
+      array[Math.trunc(Math.random() * array.length)];
     const randomNumber = getRandomInt(
       randomArray[0],
       randomArray[randomArray.length - 1]
@@ -20,18 +20,18 @@ const passwordGenerator = function (length, arrayOfArrays) {
 };
 
 const checkElementInArray = function (array, element) {
-  if (array.includes(element)) {
-    const index = array.indexOf(element);
-    array.splice(index, 1);
-  } else {
-    array.push(element);
-  }
+  array.includes(element) ? array.splice(array.indexOf(element), 1) : array.push(element);
 };
 
 const openWindow = function () {
   document.querySelector(".window").classList.remove("hidden");
   document.querySelector(".overlay").classList.remove("hidden");
 };
+
+const closeWindow = function () {
+  document.querySelector(".window").classList.add("hidden");
+  document.querySelector(".overlay").classList.add("hidden");
+}
 
 const characters = [33, 47];
 const numbers = [48, 57];
@@ -66,4 +66,11 @@ document.getElementById("btn").addEventListener("click", () => {
     msg.textContent = "Choose length and characters";
     openWindow();
   }
+});
+
+document.querySelector('.overlay').addEventListener('click', closeWindow);
+
+document.querySelector(".help").addEventListener('click', () => {
+  msg.textContent = `- ! " # $ % & ' ( ) * + , - . /`;
+  openWindow();
 });
