@@ -1,5 +1,16 @@
 "use strict";
 
+const characters = [33, 47];
+const numbers = [48, 57];
+const capitalLetters = [65, 90];
+const smallLetters = [97, 122];
+const userInput = [];
+
+const msg = document.querySelector(".msg");
+const length = document.querySelector(".length");
+const popup = document.querySelector(".window");
+const overlay = document.querySelector(".overlay");
+
 const getRandomInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
 };
@@ -7,8 +18,7 @@ const getRandomInt = function (min, max) {
 const passwordGenerator = function (length, array) {
   let password = "";
   while (password.length < length) {
-    const randomArray =
-      array[Math.trunc(Math.random() * array.length)];
+    const randomArray = array[Math.trunc(Math.random() * array.length)];
     const randomNumber = getRandomInt(
       randomArray[0],
       randomArray[randomArray.length - 1]
@@ -20,27 +30,20 @@ const passwordGenerator = function (length, array) {
 };
 
 const checkElementInArray = function (array, element) {
-  array.includes(element) ? array.splice(array.indexOf(element), 1) : array.push(element);
+  array.includes(element)
+    ? array.splice(array.indexOf(element), 1)
+    : array.push(element);
 };
 
 const openWindow = function () {
-  document.querySelector(".window").classList.remove("hidden");
-  document.querySelector(".overlay").classList.remove("hidden");
+  popup.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 };
 
 const closeWindow = function () {
-  document.querySelector(".window").classList.add("hidden");
-  document.querySelector(".overlay").classList.add("hidden");
-}
-
-const characters = [33, 47];
-const numbers = [48, 57];
-const capitalLetters = [65, 90];
-const smallLetters = [97, 122];
-const userInput = [];
-
-const msg = document.querySelector(".msg");
-const length = document.querySelector(".length");
+  popup.classList.add("hidden");
+  overlay.classList.add("hidden");
+};
 
 document.getElementById("small-letters").addEventListener("change", () => {
   checkElementInArray(userInput, smallLetters);
@@ -68,9 +71,15 @@ document.getElementById("btn").addEventListener("click", () => {
   }
 });
 
-document.querySelector('.overlay').addEventListener('click', closeWindow);
+overlay.addEventListener("click", closeWindow);
 
-document.querySelector(".help").addEventListener('click', () => {
+document.querySelector(".help").addEventListener("click", () => {
   msg.textContent = `- ! " # $ % & ' ( ) * + , - . /`;
   openWindow();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !popup.classList.contains("hidden")) {
+    closeWindow();
+  }
 });
