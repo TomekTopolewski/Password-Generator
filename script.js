@@ -4,12 +4,15 @@ const characters = [33, 47];
 const numbers = [48, 57];
 const capitalLetters = [65, 90];
 const smallLetters = [97, 122];
-const userInput = [];
+const options = [];
 
-const msg = document.querySelector(".msg");
-const length = document.querySelector(".length");
-const popup = document.querySelector(".window");
-const overlay = document.querySelector(".overlay");
+const msg = document.getElementById("msg");
+const length = document.getElementById("length");
+const popup = document.getElementById("window");
+const overlay = document.getElementById("overlay");
+const btnDark = document.getElementById("btn-dark");
+const btnHelp = document.getElementById("btn-help");
+const btnGenerate = document.getElementById("btn-generate");
 
 const getRandomInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
@@ -35,6 +38,16 @@ const checkElementInArray = function (array, element) {
     : array.push(element);
 };
 
+const swapColors = function (element) {
+  if (element.classList.contains("white")) {
+    element.classList.remove("white");
+    element.classList.add("dark");
+  } else if (element.classList.contains("dark")) {
+    element.classList.remove("dark");
+    element.classList.add("white");
+  }
+};
+
 const openWindow = function () {
   popup.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -46,24 +59,24 @@ const closeWindow = function () {
 };
 
 document.getElementById("small-letters").addEventListener("change", () => {
-  checkElementInArray(userInput, smallLetters);
+  checkElementInArray(options, smallLetters);
 });
 
 document.getElementById("capital-letters").addEventListener("change", () => {
-  checkElementInArray(userInput, capitalLetters);
+  checkElementInArray(options, capitalLetters);
 });
 
 document.getElementById("numbers").addEventListener("change", () => {
-  checkElementInArray(userInput, numbers);
+  checkElementInArray(options, numbers);
 });
 
 document.getElementById("characters").addEventListener("change", () => {
-  checkElementInArray(userInput, characters);
+  checkElementInArray(options, characters);
 });
 
-document.getElementById("btn").addEventListener("click", () => {
-  if (length.value && userInput.length) {
-    msg.textContent = passwordGenerator(length.value, userInput);
+btnGenerate.addEventListener("click", () => {
+  if (length.value && options.length) {
+    msg.textContent = passwordGenerator(length.value, options);
     openWindow();
   } else {
     msg.textContent = "Choose length and characters";
@@ -71,12 +84,22 @@ document.getElementById("btn").addEventListener("click", () => {
   }
 });
 
-overlay.addEventListener("click", closeWindow);
-
-document.querySelector(".help").addEventListener("click", () => {
-  msg.textContent = `- ! " # $ % & ' ( ) * + , - . /`;
+btnHelp.addEventListener("click", () => {
+  msg.textContent = `Characters are - ! " # $ % & ' ( ) * + , - . /`;
   openWindow();
 });
+
+btnDark.addEventListener("click", () => {
+  swapColors(document.querySelector("body"));
+  swapColors(document.getElementById("application"));
+  swapColors(length);
+  swapColors(btnDark);
+  swapColors(btnHelp);
+  swapColors(btnGenerate);
+  swapColors(popup);
+});
+
+overlay.addEventListener("click", closeWindow);
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !popup.classList.contains("hidden")) {
