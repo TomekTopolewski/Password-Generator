@@ -7,6 +7,9 @@
   box-sizing: border-box;
   font-family: "Offside", sans-serif;
   font-size: 14px;
+  background-color: white;
+  color: black;
+  border-color: black;
 }
 
 body {
@@ -81,12 +84,6 @@ h1 {
 .msg {
   font-size: 18px;
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.white {
-  background-color: white;
-  color: black;
-  border-color: black;
 }
 
 .dark {

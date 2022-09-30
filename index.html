@@ -6,27 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css"
   </head>
-  <body class="flex-column white">
+  <body class="flex-column">
     <header></header>
     <main>
       <div class="flex-row no-padding right" id="buttons">
-        <button class="white no-border no-padding" id="btn-dark">
+        <button class="no-border no-padding" id="btn-dark">
           <span class="material-symbols-outlined no-padding"> dark_mode </span>
         </button>
-        <button class="white no-border no-padding" id="btn-help">
+        <button class="no-border no-padding" id="btn-help">
           <span class="material-symbols-outlined"> help </span>
         </button>
       </div>
-      <div class="flex-column border white" id="application">
+      <div class="flex-column border" id="application">
         <div class="flex-row no-padding center">
           <h1>Password Generator</h1>
         </div>
-        <input
-          type="number"
-          class="white border"
-          placeholder="length"
-          id="length"
-        />
+        <input type="number" class="border" placeholder="length" id="length" />
         <div>
           <input type="checkbox" id="small-letters" />
           <label for="small-letters">Small letters</label>
@@ -43,9 +38,9 @@
           <input type="checkbox" id="characters" />
           <label for="characters">Characters</label>
         </div>
-        <button class="btn white border" id="btn-generate">Generate</button>
+        <button class="btn border" id="btn-generate">Generate</button>
       </div>
-      <div class="window hidden border white" id="window">
+      <div class="window hidden border" id="window">
         <p class="msg" id="msg"></p>
       </div>
       <div class="overlay hidden" id="overlay"></div>

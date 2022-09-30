@@ -38,16 +38,6 @@ const checkElementInArray = function (array, element) {
     : array.push(element);
 };
 
-const swapColors = function (element) {
-  if (element.classList.contains("white")) {
-    element.classList.remove("white");
-    element.classList.add("dark");
-  } else if (element.classList.contains("dark")) {
-    element.classList.remove("dark");
-    element.classList.add("white");
-  }
-};
-
 const openWindow = function () {
   popup.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -90,13 +80,13 @@ btnHelp.addEventListener("click", () => {
 });
 
 btnDark.addEventListener("click", () => {
-  swapColors(document.querySelector("body"));
-  swapColors(document.getElementById("application"));
-  swapColors(length);
-  swapColors(btnDark);
-  swapColors(btnHelp);
-  swapColors(btnGenerate);
-  swapColors(popup);
+  const allElements = document.getElementsByTagName("*");
+  for (let i = 0; i < allElements.length; i++) {
+    if (allElements[i].id === "overlay") {
+      continue;
+    }
+    allElements[i].classList.toggle("dark");
+  }
 });
 
 overlay.addEventListener("click", closeWindow);
