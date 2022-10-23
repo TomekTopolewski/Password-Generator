@@ -92,7 +92,10 @@ btnDark.addEventListener("click", () => {
 overlay.addEventListener("click", closeWindow);
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !popup.classList.contains("hidden")) {
+  // if (event.key === "Escape" && !popup.classList.contains("hidden")) {
+  //   closeWindow();
+  // }
+  event.key === "Escape" &&
+    !popup.classList.contains("hidden") &&
     closeWindow();
-  }
 });
