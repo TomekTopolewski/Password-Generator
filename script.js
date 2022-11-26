@@ -1,41 +1,34 @@
 "use strict";
 
-const characters = [33, 47];
-const numbers = [48, 57];
-const capitalLetters = [65, 90];
-const smallLetters = [97, 122];
-const options = [];
+const options = new Map();
 
 const msg = document.getElementById("msg");
-const length = document.getElementById("length");
+const pass_length = document.getElementById("length");
 const popup = document.getElementById("window");
 const overlay = document.getElementById("overlay");
 const btnDark = document.getElementById("btn-dark");
 const btnHelp = document.getElementById("btn-help");
 const btnGenerate = document.getElementById("btn-generate");
 
-const getRandomInt = function (min, max) {
+const capitalLetters = document.getElementById("capital-letters");
+const numbers = document.getElementById("numbers");
+const characters = document.getElementById("characters");
+const smallLetters = document.getElementById("small-letters");
+
+const getRandInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
 };
 
-const passwordGenerator = function (length, array) {
+const passwordGenerator = function (length, options) {
   let password = "";
   while (password.length < length) {
-    const randomArray = array[Math.trunc(Math.random() * array.length)];
-    const randomNumber = getRandomInt(
-      randomArray[0],
-      randomArray[randomArray.length - 1]
+    const randCharRange = options[getRandInt(0, options.length)];
+    const randChar = String.fromCharCode(
+      getRandInt(randCharRange.at(0), randCharRange.at(-1))
     );
-    const randomCharacter = String.fromCharCode(randomNumber);
-    password += randomCharacter;
+    password += randChar;
   }
   return password;
-};
-
-const checkElementInArray = function (array, element) {
-  array.includes(element)
-    ? array.splice(array.indexOf(element), 1)
-    : array.push(element);
 };
 
 const openWindow = function () {
@@ -48,25 +41,35 @@ const closeWindow = function () {
   overlay.classList.add("hidden");
 };
 
-document.getElementById("small-letters").addEventListener("change", () => {
-  checkElementInArray(options, smallLetters);
+smallLetters.addEventListener("change", function () {
+  options.has(this.id)
+    ? options.delete(this.id)
+    : options.set(this.id, [97, 122]);
 });
 
-document.getElementById("capital-letters").addEventListener("change", () => {
-  checkElementInArray(options, capitalLetters);
+capitalLetters.addEventListener("change", function () {
+  options.has(this.id)
+    ? options.delete(this.id)
+    : options.set(this.id, [65, 90]);
 });
 
-document.getElementById("numbers").addEventListener("change", () => {
-  checkElementInArray(options, numbers);
+numbers.addEventListener("change", function () {
+  options.has(this.id)
+    ? options.delete(this.id)
+    : options.set(this.id, [48, 57]);
 });
 
-document.getElementById("characters").addEventListener("change", () => {
-  checkElementInArray(options, characters);
+characters.addEventListener("change", function () {
+  options.has(this.id)
+    ? options.delete(this.id)
+    : options.set(this.id, [33, 47]);
 });
 
 btnGenerate.addEventListener("click", () => {
-  if (length.value && options.length) {
-    msg.textContent = passwordGenerator(length.value, options);
+  if (pass_length.value && options.size) {
+    msg.textContent = passwordGenerator(pass_length.value, [
+      ...options.values(),
+    ]);
     openWindow();
   } else {
     msg.textContent = "Choose length and characters";
@@ -80,21 +83,16 @@ btnHelp.addEventListener("click", () => {
 });
 
 btnDark.addEventListener("click", () => {
-  const allElements = document.getElementsByTagName("*");
-  for (let i = 0; i < allElements.length; i++) {
-    if (allElements[i].id === "overlay") {
-      continue;
-    }
-    allElements[i].classList.toggle("dark");
+  const elements = document.getElementsByTagName("*");
+  for (const element of elements) {
+    if (element.id === "overlay") continue;
+    element.classList.toggle("dark");
   }
 });
 
 overlay.addEventListener("click", closeWindow);
 
 document.addEventListener("keydown", (event) => {
-  // if (event.key === "Escape" && !popup.classList.contains("hidden")) {
-  //   closeWindow();
-  // }
   event.key === "Escape" &&
     !popup.classList.contains("hidden") &&
     closeWindow();
