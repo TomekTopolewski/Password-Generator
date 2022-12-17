@@ -71,6 +71,12 @@ btnGenerate.addEventListener("click", () => {
       ...options.values(),
     ]);
     openWindow();
+
+    pass_length.value = "";
+    smallLetters.checked = false;
+    capitalLetters.checked = false;
+    numbers.checked = false;
+    characters.checked = false;
   } else {
     msg.textContent = "Choose length and characters";
     openWindow();
