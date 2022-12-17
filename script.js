@@ -90,11 +90,9 @@ btnHelp.addEventListener("click", () => {
 });
 
 btnDark.addEventListener("click", () => {
-  const elements = document.getElementsByTagName("*");
-  for (const element of elements) {
-    if (element.id === "overlay") continue;
-    element.classList.toggle("dark");
-  }
+  [...document.getElementsByTagName("*")].forEach((e) => {
+    e.id !== "overlay" ? e.classList.toggle("dark") : null;
+  });
 });
 
 overlay.addEventListener("click", closeWindow);
