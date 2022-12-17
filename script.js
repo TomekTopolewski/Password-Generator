@@ -73,6 +73,7 @@ btnGenerate.addEventListener("click", () => {
     openWindow();
 
     pass_length.value = "";
+    options.clear();
     smallLetters.checked = false;
     capitalLetters.checked = false;
     numbers.checked = false;
