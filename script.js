@@ -1,28 +1,27 @@
 "use strict";
 
-const options = new Map();
+const options = new Map([
+  ["small-letters", [97, 122]],
+  ["capital-letters", [65, 90]],
+  ["numbers", [48, 57]],
+  ["characters", [33, 47]],
+]);
+
+const currentOpt = new Map();
 
 const msg = document.getElementById("msg");
 const pass_length = document.getElementById("length");
 const popup = document.getElementById("window");
 const overlay = document.getElementById("overlay");
-const btnDark = document.getElementById("btn-dark");
-const btnHelp = document.getElementById("btn-help");
-const btnGenerate = document.getElementById("btn-generate");
-
-const capitalLetters = document.getElementById("capital-letters");
-const numbers = document.getElementById("numbers");
-const characters = document.getElementById("characters");
-const smallLetters = document.getElementById("small-letters");
 
 const getRandInt = function (min, max) {
   return Math.trunc(Math.random() * (max - min) + min);
 };
 
-const passwordGenerator = function (length, options) {
+const passwordGenerator = function (length, opt) {
   let password = "";
   while (password.length < length) {
-    const randCharRange = options[getRandInt(0, options.length)];
+    const randCharRange = opt[getRandInt(0, opt.length)];
     const randChar = String.fromCharCode(
       getRandInt(randCharRange.at(0), randCharRange.at(-1))
     );
@@ -31,74 +30,52 @@ const passwordGenerator = function (length, options) {
   return password;
 };
 
-const openWindow = function () {
-  popup.classList.remove("hidden");
-  overlay.classList.remove("hidden");
+const updateUI = function () {
+  popup.classList.toggle("hidden");
+  overlay.classList.toggle("hidden");
 };
 
-const closeWindow = function () {
-  popup.classList.add("hidden");
-  overlay.classList.add("hidden");
-};
-
-smallLetters.addEventListener("change", function () {
-  options.has(this.id)
-    ? options.delete(this.id)
-    : options.set(this.id, [97, 122]);
+document.querySelector("#options").addEventListener("change", function (e) {
+  currentOpt.has(e.target.id)
+    ? currentOpt.delete(e.target.id)
+    : currentOpt.set(e.target.id, options.get(e.target.id));
 });
 
-capitalLetters.addEventListener("change", function () {
-  options.has(this.id)
-    ? options.delete(this.id)
-    : options.set(this.id, [65, 90]);
-});
-
-numbers.addEventListener("change", function () {
-  options.has(this.id)
-    ? options.delete(this.id)
-    : options.set(this.id, [48, 57]);
-});
-
-characters.addEventListener("change", function () {
-  options.has(this.id)
-    ? options.delete(this.id)
-    : options.set(this.id, [33, 47]);
-});
-
-btnGenerate.addEventListener("click", () => {
-  if (pass_length.value && options.size) {
+document.querySelector("#btn-generate").addEventListener("click", () => {
+  if (pass_length.value && currentOpt.size) {
     msg.textContent = passwordGenerator(pass_length.value, [
-      ...options.values(),
+      ...currentOpt.values(),
     ]);
-    openWindow();
+    updateUI();
 
     pass_length.value = "";
-    options.clear();
-    smallLetters.checked = false;
-    capitalLetters.checked = false;
-    numbers.checked = false;
-    characters.checked = false;
+
+    currentOpt.clear();
+
+    document.querySelectorAll("input").forEach(function (e) {
+      if (e.type === "checkbox") {
+        e.checked = false;
+      }
+    });
   } else {
     msg.textContent = "Choose length and characters";
-    openWindow();
+    updateUI();
   }
 });
 
-btnHelp.addEventListener("click", () => {
+document.querySelector("#btn-help").addEventListener("click", () => {
   msg.textContent = `Characters are - ! " # $ % & ' ( ) * + , - . /`;
-  openWindow();
+  updateUI();
 });
 
-btnDark.addEventListener("click", () => {
+document.querySelector("#btn-dark").addEventListener("click", () => {
   [...document.getElementsByTagName("*")].forEach((e) => {
     e.id !== "overlay" ? e.classList.toggle("dark") : null;
   });
 });
 
-overlay.addEventListener("click", closeWindow);
+overlay.addEventListener("click", updateUI);
 
-document.addEventListener("keydown", (event) => {
-  event.key === "Escape" &&
-    !popup.classList.contains("hidden") &&
-    closeWindow();
+document.addEventListener("keydown", (e) => {
+  e.key === "Escape" && !popup.classList.contains("hidden") && updateUI();
 });
